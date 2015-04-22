@@ -9,6 +9,7 @@ describe Clockwork do
       config[:sleep_timeout] = 0
       config[:logger] = Logger.new(@log_output)
     end
+    IO.stubs(:select)
   end
 
   after do
@@ -21,7 +22,7 @@ describe Clockwork do
       run = job == 'myjob'
     end
     Clockwork.every(1.minute, 'myjob')
-    Clockwork.manager.expects(:loop).yields.then.returns
+    Clockwork.manager.stubs(:run_tick_loop).returns(Clockwork.manager.tick)
     Clockwork.run
 
     assert run
@@ -34,7 +35,7 @@ describe Clockwork do
       run = job == 'an event'
     end
     Clockwork.every(1.minute, 'an event')
-    Clockwork.manager.expects(:loop).yields.then.returns
+    Clockwork.manager.stubs(:run_tick_loop).returns(Clockwork.manager.tick)
     Clockwork.run
     assert run
     assert @log_output.string.include?("Triggering 'an event'")
@@ -47,7 +48,7 @@ describe Clockwork do
       run = job == event_object
     end
     Clockwork.every(1.minute, event_object)
-    Clockwork.manager.expects(:loop).yields.then.returns
+    Clockwork.manager.stubs(:run_tick_loop).returns(Clockwork.manager.tick)
     Clockwork.run
     assert run
   end
@@ -59,14 +60,14 @@ describe Clockwork do
       config[:sleep_timeout] = 0
       config[:logger] = Logger.new(@log_output)
     end
-    Clockwork.manager.expects(:loop).yields.then.returns
+    Clockwork.manager.stubs(:run_tick_loop).returns(Clockwork.manager.tick)
     Clockwork.run
     assert @log_output.string.include?('0 events')
   end
 
   it 'should pass all arguments to every' do
     Clockwork.every(1.second, 'myjob', if: lambda { |_| false }) {  }
-    Clockwork.manager.expects(:loop).yields.then.returns
+    Clockwork.manager.stubs(:run_tick_loop).returns(Clockwork.manager.tick)
     Clockwork.run
     assert @log_output.string.include?('1 events')
     assert !@log_output.string.include?('Triggering')
@@ -77,7 +78,7 @@ describe Clockwork do
     module ::Clockwork
       every(1.second, 'myjob') { $called = true }
     end
-    Clockwork.manager.expects(:loop).yields.then.returns
+    Clockwork.manager.stubs(:run_tick_loop).returns(Clockwork.manager.tick)
     Clockwork.run
     assert $called
   end

@@ -9,6 +9,9 @@ module Clockwork
       @callbacks = {}
       @config = default_configuration
       @handler = nil
+      @mutex = Mutex.new
+      @condvar = ConditionVariable.new
+      @finish = false
     end
 
     def thread_available?
@@ -60,10 +63,66 @@ module Clockwork
 
     def run
       log "Starting clock for #{@events.size} events: [ #{@events.map(&:to_s).join(' ')} ]"
-      loop do
-        tick
-        interval = config[:sleep_timeout] - Time.now.subsec + 0.001
-        sleep(interval) if interval > 0
+
+      sig_read, sig_write = IO.pipe
+
+      %w[INT TERM].each do |sig|
+        trap sig do
+          sig_write.puts(sig)
+        end
+      end
+
+      run_tick_loop
+
+      while io = IO.select([sig_read])
+        sig = io.first[0].gets.chomp
+        handle_signal(sig)
+      end
+    end
+
+    def handle_signal(sig)
+      logger.debug "Got #{sig} signal"
+      case sig
+      when 'INT'
+        shutdown
+      when 'TERM'
+        # Heroku sends TERM signal sometimes, and waits 10 seconds before exit
+        graceful_shutdown
+      end
+    end
+
+    def shutdown
+      logger.info 'Shutting down'
+      stop_tick_loop
+      exit(0)
+    end
+
+    def graceful_shutdown
+      logger.info 'Gracefully shutting down'
+      stop_tick_loop
+      wait_tick_loop_finishes
+      exit(0)
+    end
+
+    def stop_tick_loop
+      @finish = true
+    end
+
+    def wait_tick_loop_finishes
+      @mutex.synchronize do # wait by synchronize
+        @condvar.signal
+      end
+    end
+
+    def run_tick_loop
+      Thread.new do
+        @mutex.synchronize do
+          until @finish
+            tick
+            interval = config[:sleep_timeout] - Time.now.subsec + 0.001
+            @condvar.wait(@mutex, interval) if interval > 0
+          end
+        end
       end
     end
 
@@ -79,6 +138,10 @@ module Clockwork
       end
       fire_callbacks(:after_tick)
       events
+    end
+
+    def logger
+      config[:logger]
     end
 
     def log_error(e)
