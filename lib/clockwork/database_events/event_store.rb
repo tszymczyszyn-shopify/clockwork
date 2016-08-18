@@ -112,15 +112,19 @@ module Clockwork
         options = {
           :from_database => true,
           :synchronizer => self,
+          :ignored_attributes => [],
         }
 
         options[:at] = at_strings_for(model) if model.respond_to?(:at)
         options[:if] = ->(time){ model.if?(time) } if model.respond_to?(:if?)
         options[:tz] = model.tz if model.respond_to?(:tz)
+        options[:ignored_attributes] = model.ignored_attributes if model.respond_to?(:ignored_attributes)
 
         # store the state of the model at time of registering so we can
         # easily compare and determine if state has changed later
-        options[:model_attributes] = model.attributes
+        options[:model_attributes] = model.attributes.select do |k, v|
+          not options[:ignored_attributes].include?(k.to_sym)
+        end
 
         options
       end
