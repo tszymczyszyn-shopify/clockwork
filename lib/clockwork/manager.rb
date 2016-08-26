@@ -66,7 +66,7 @@ module Clockwork
 
       sig_read, sig_write = IO.pipe
 
-      %w[INT TERM].each do |sig|
+      %w[INT TERM HUP].each do |sig|
         trap sig do
           sig_write.puts(sig)
         end
@@ -86,7 +86,9 @@ module Clockwork
       when 'INT'
         shutdown
       when 'TERM'
-        # Heroku sends TERM signal sometimes, and waits 10 seconds before exit
+        # Heroku sends TERM signal, and waits 10 seconds before exit
+        graceful_shutdown
+      when 'HUP'
         graceful_shutdown
       end
     end
