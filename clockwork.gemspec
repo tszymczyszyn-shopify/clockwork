@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "daemons"
   s.add_development_dependency "minitest", "~> 5.8"
   s.add_development_dependency "mocha"
+  s.add_development_dependency "test-unit"
 end
