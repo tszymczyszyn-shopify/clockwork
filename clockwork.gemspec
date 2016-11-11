@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = [
     "README.md"
   ]
-  s.homepage = "http://github.com/tomykaira/clockwork"
+  s.homepage = "http://github.com/Rykian/clockwork"
   s.summary = "A scheduler process to replace cron."
 
   s.files         = `git ls-files`.split($/)
