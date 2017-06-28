@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "clockwork"
-  s.version = "2.0.1"
+  s.version = "2.0.2"
 
   s.authors = ["Adam Wiggins", "tomykaira"]
   s.license = 'MIT'
@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = [
     "README.md"
   ]
-  s.homepage = "http://github.com/tomykaira/clockwork"
+  s.homepage = "http://github.com/Rykian/clockwork"
   s.summary = "A scheduler process to replace cron."
 
   s.files         = `git ls-files`.split($/)
@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "daemons"
   s.add_development_dependency "minitest", "~> 5.8"
   s.add_development_dependency "mocha"
+  s.add_development_dependency "test-unit"
 end

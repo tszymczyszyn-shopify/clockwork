@@ -1,8 +1,8 @@
-Clockwork - a clock process to replace cron [![Build Status](https://secure.travis-ci.org/tomykaira/clockwork.png?branch=master)](http://travis-ci.org/tomykaira/clockwork) [![Dependency Status](https://gemnasium.com/tomykaira/clockwork.png)](https://gemnasium.com/tomykaira/clockwork)
+Clockwork - a clock process to replace cron [![Build Status](https://api.travis-ci.org/Rykian/clockwork.png?branch=master)](https://travis-ci.org/Rykian/clockwork) [![Dependency Status](https://gemnasium.com/Rykian/clockwork.png)](https://gemnasium.com/Rykian/clockwork)
 ===========================================
 
 Cron is non-ideal for running scheduled application tasks, especially in an app
-deployed to multiple machines.  [More details.](http://adam.heroku.com/past/2010/4/13/rethinking_cron/)
+deployed to multiple machines.  [More details.](http://adam.herokuapp.com/past/2010/4/13/rethinking_cron/)
 
 Clockwork is a cron replacement.  It runs as a lightweight, long-running Ruby
 process which sits alongside your web processes (Mongrel/Thin) and your worker
@@ -69,8 +69,8 @@ to do the work.  It avoids locking by running as a single process, but this
 makes it impossible to parallelize.  For doing the work, you should be using a
 job queueing system, such as
 [Delayed Job](http://www.therailsway.com/2009/7/22/do-it-later-with-delayed-job),
-[Beanstalk/Stalker](http://adam.heroku.com/past/2010/4/24/beanstalk_a_simple_and_fast_queueing_backend/),
-[RabbitMQ/Minion](http://adam.heroku.com/past/2009/9/28/background_jobs_with_rabbitmq_and_minion/),
+[Beanstalk/Stalker](http://adam.herokuapp.com/past/2010/4/24/beanstalk_a_simple_and_fast_queueing_backend/),
+[RabbitMQ/Minion](http://adam.herokuapp.com/past/2009/9/28/background_jobs_with_rabbitmq_and_minion/),
 [Resque](http://github.com/blog/542-introducing-resque), or
 [Sidekiq](https://github.com/mperham/sidekiq).  This design allows a
 simple clock process with no locks, but also offers near infinite horizontal
@@ -381,7 +381,6 @@ Clockwork wakes up once a second and performs its duties. To change the number o
 sleeps, set the `sleep_timeout` configuration option as shown below in the example.
 
 From 1.1.0, Clockwork does not accept `sleep_timeout` less than 1 seconds.
-This restriction is introduced to solve more severe bug [#135](https://github.com/tomykaira/clockwork/pull/135).
 
 ### :tz
 
@@ -551,7 +550,7 @@ For more details, you can run `clockworkd -h`.
 Issues and Pull requests
 ------------------------
 
-If you find a bug, please create an issue - [Issues · tomykaira/clockwork](https://github.com/tomykaira/clockwork/issues).
+If you find a bug, please create an issue - [Issues · Rykian/clockwork](https://github.com/Rykian/clockwork/issues).
 
 For a bug fix or a feature request, please send a pull-request.
 Do not forget to add tests to show how your feature works, or what bug is fixed.
@@ -567,8 +566,8 @@ Use cases
 
 Feel free to add your idea or experience and send a pull-request.
 
-- [Sending errors to Airbrake](https://github.com/tomykaira/clockwork/issues/58)
-- [Read events from a database](https://github.com/tomykaira/clockwork/issues/25)
+- Sending errors to Airbrake
+- Read events from a database
 
 Meta
 ----
@@ -583,4 +582,4 @@ Patches contributed by Mark McGranaghan and Lukáš Konarovský
 
 Released under the MIT License: http://www.opensource.org/licenses/mit-license.php
 
-http://github.com/tomykaira/clockwork
+https://github.com/Rykian/clockwork
