@@ -14,7 +14,14 @@ module Clockwork
       def has_changed?(model)
         return true if event.nil?
 
-        event.model_attributes != model.attributes
+        ignored_attributes = model.ignored_attributes if model.respond_to?(:ignored_attributes)
+        ignored_attributes ||= []
+
+        model_attributes = model.attributes.select do |k, _|
+          not ignored_attributes.include?(k.to_sym)
+        end
+
+        event.model_attributes != model_attributes
       end
 
       def unregister
