@@ -18,6 +18,8 @@ Create clock.rb:
 
 ```ruby
 require 'clockwork'
+require 'active_support/time' # Allow numeric durations (eg: 1.minutes)
+
 module Clockwork
   handler do |job|
     puts "Running #{job}"
@@ -80,6 +82,7 @@ For example, if you're using Beanstalk/Stalker:
 
 ```ruby
 require 'stalker'
+require 'active_support/time'
 
 module Clockwork
   handler { |job| Stalker.enqueue(job) }
