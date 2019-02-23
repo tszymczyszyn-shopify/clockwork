@@ -153,25 +153,23 @@ When one of the events is ready to be run (based on it's `frequency`, and possib
 
 `ActiveRecord` models are a perfect candidate for the model class. Having said that, the only requirements are:
 
-  1. the class responds to `all` returning an array of instances from the database
+1. the class responds to `all` returning an array of instances from the database
 
-  2. the instances returned respond to:
+2. the instances returned respond to:
+   - `id` returning a unique identifier (this is needed to track changes to event settings)
+   - `frequency` returning the how frequently (in seconds) the database event should be run
 
-    - `id` returning a unique identifier (this is needed to track changes to event settings)
+   - `attributes` returning a hash of [attribute name] => [attribute value] values (or really anything that we can use store on registering the event, and then compare again to see if the state has changed later)
 
-    - `frequency` returning the how frequently (in seconds) the database event should be run
+   - `at` *(optional)* return any acceptable clockwork `:at` string
 
-    - `attributes` returning a hash of [attribute name] => [attribute value] values (or really anything that we can use store on registering the event, and then compare again to see if the state has changed later)
+   - `name` *(optional)* returning the name for the event (used to identify it in the Clockwork output)
 
-    - (optionally) `at` return any acceptable clockwork `:at` string
+   - `if?`*(optional)*  returning either true or false, depending on whether the database event should run at the given time (this method will be passed the time as a parameter, much like the standard clockwork `:if`)
 
-    - (optionally) `name` returning the name for the event (used to identify it in the Clockwork output)
+   - `ignored_attributes` *(optional)* returning an array of model attributes (as symbols) to ignore when determining whether the database event has been modified since our last run
 
-    - (optionally) `if?` returning either true or false, depending on whether the database event should run at the given time (this method will be passed the time as a parameter, much like the standard clockwork `:if`)
-
-    - (optionally) `ignored_attributes` returning an array of model attributes (as symbols) to ignore when determining whether the database event has been modified since our last run
-
-    - (optionally) `tz` returning the timezone to use (default is the local timezone)
+   - `tz` *(optional)* returning the timezone to use (default is the local timezone)
 
 #### Example Setup
 
