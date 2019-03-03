@@ -562,6 +562,13 @@ clockworkd -c YOUR_CLOCK.rb start
 
 For more details, you can run `clockworkd -h`.
 
+Integration Testing
+-------------------
+
+You could take a look at:
+* [clockwork-mocks](https://github.com/dpoetzsch/clockwork-mocks) that helps with running scheduled tasks during integration testing.
+* [clockwork-test](https://github.com/kevin-j-m/clockwork-test) which ensures that tasks are triggered at the right time
+
 Issues and Pull requests
 ------------------------
 
