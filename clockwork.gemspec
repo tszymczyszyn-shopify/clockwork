@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.add_dependency(%q<tzinfo>)
   s.add_dependency(%q<activesupport>)
 
-  s.add_development_dependency "bundler", "~> 1.3"
   s.add_development_dependency "rake"
   s.add_development_dependency "daemons"
   s.add_development_dependency "minitest", "~> 5.8"
