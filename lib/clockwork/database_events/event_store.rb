@@ -119,6 +119,7 @@ module Clockwork
         options[:if] = ->(time){ model.if?(time) } if model.respond_to?(:if?)
         options[:tz] = model.tz if model.respond_to?(:tz)
         options[:ignored_attributes] = model.ignored_attributes if model.respond_to?(:ignored_attributes)
+        options[:skip_first_run] = model.skip_first_run if model.respond_to?(:skip_first_run)
 
         # store the state of the model at time of registering so we can
         # easily compare and determine if state has changed later
