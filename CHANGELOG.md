@@ -1,3 +1,7 @@
+## Unreleased ##
+
+* allow `:skip_first_run` in database events
+
 ## 2.0.4 ##
 
 *   Reverts the breaking changes in PR #18 that went out in patch 2.0.3

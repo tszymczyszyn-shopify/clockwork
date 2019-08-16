@@ -171,6 +171,8 @@ When one of the events is ready to be run (based on it's `frequency`, and possib
 
    - `tz` *(optional)* returning the timezone to use (default is the local timezone)
 
+   - `skip_first_run` *(optional)* self explanatory, see [dedicated section](#skip_first_run)
+
 #### Example Setup
 
 Here's an example of one way of setting up your ActiveRecord models:
