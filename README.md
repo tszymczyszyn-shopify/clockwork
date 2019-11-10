@@ -504,7 +504,7 @@ end
 ```
 
 In addition, Clockwork also supports `:before_tick`, `:after_tick`, `:before_run`, and `:after_run` callbacks.
-All callbacks are optional. The `tick` callbacks run every tick (a tick being whatever your `:sleep_timeout`
+All callbacks are optional. All `before` callbacks must return a truthy value otherwise the job will not run. The `tick` callbacks run every tick (a tick being whatever your `:sleep_timeout`
 is set to, default is 1 second):
 
 ```ruby
