@@ -27,6 +27,7 @@ describe Clockwork do
 
     assert run
     assert @log_output.string.include?('Triggering')
+    assert @log_output.string.include?('Finished')
   end
 
   it 'should log event correctly' do
@@ -39,6 +40,21 @@ describe Clockwork do
     Clockwork.run
     assert run
     assert @log_output.string.include?("Triggering 'an event'")
+    assert_match /Finished 'an event' duration_ms=\d+ error=nil/, @log_output.string
+  end
+
+  it 'should log exceptions' do
+    run = false
+    Clockwork.handler do |job|
+      run = job == 'an event'
+      raise 'boom'
+    end
+    Clockwork.every(1.minute, 'an event')
+    Clockwork.manager.stubs(:run_tick_loop).returns(Clockwork.manager.tick)
+    Clockwork.run
+    assert run
+    assert @log_output.string.include?("Triggering 'an event'")
+    assert_match /Finished 'an event' duration_ms=\d+ error=#<RuntimeError: boom>/, @log_output.string
   end
 
   it 'should pass event without modification to handler' do
