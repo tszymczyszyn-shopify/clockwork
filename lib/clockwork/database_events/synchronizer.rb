@@ -1,5 +1,3 @@
-require_relative '../database_events'
-
 module Clockwork
 
   module DatabaseEvents
