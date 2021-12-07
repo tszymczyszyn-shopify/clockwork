@@ -55,10 +55,19 @@ module Clockwork
 
     private
     def execute
+      start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      error = nil
+
       @block.call(@job, @last)
     rescue => e
+      error = e
       @manager.log_error e
       @manager.handle_error e
+    ensure
+      finish = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      duration = ((finish - start) * 1000).round # milliseconds
+
+      @manager.log "Finished '#{self}' duration_ms=#{duration} error=#{error.inspect}"
     end
 
     def elapsed_ready?(t)
