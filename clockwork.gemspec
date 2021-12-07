@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "clockwork"
-  s.version = "2.0.4"
+  s.version = "3.0.0"
 
   s.authors = ["Adam Wiggins", "tomykaira"]
   s.license = 'MIT'
