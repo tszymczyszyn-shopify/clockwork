@@ -1,3 +1,7 @@
+## 3.0.1 ##
+
+* Notify error using error handler if configured (49075c2)
+
 ## 3.0.0 ##
 
 * BREAKING CHANGE: drop Rubinius support
