@@ -1,3 +1,7 @@
+## 3.0.2 ##
+
+* Fixing clockworkd on Ruby 3.2 (a73a9d5)
+
 ## 3.0.1 ##
 
 * Notify error using error handler if configured (49075c2)
